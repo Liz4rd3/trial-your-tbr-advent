@@ -876,7 +876,7 @@
                     ? `${STATUS_META[door.status].emoji} ${STATUS_META[door.status].label}`
                     : `📖 Reading`;
 
-                let snippet = `🎄 **Door #${door.day}:** ||${door.title}|| — Verdict: ${verdictText}`;
+                let snippet = `🎄 **Door #${door.day}:** ${door.title} — Verdict: ${verdictText}`;
                 if (door.notes && door.notes.trim().length > 0) {
                     snippet += `\n> *Notes:* ${door.notes.trim()}`;
                 }
@@ -907,7 +907,7 @@
                             const noteSuffix = (d.notes && d.notes.trim().length > 0) 
                                 ? ` — *${d.notes.trim()}*` 
                                 : '';
-                            lines.push(`• **Door #${d.day}:** ||${d.title}|| (${verdict})${noteSuffix}`);
+                            lines.push(`• **Door #${d.day}:** ${d.title} (${verdict})${noteSuffix}`);
                         });
                 }
 
