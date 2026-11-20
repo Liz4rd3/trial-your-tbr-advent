@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trial Your TBR – Christmas Edition 🎄</title>
+    <!-- Tailwind CSS for responsive layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Playfair Display for cozy bookish typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Festive Evergreen, Cream & Muted Gold Palette */
+        :root {
+            --bg-forest: #122620;
+            --bg-forest-light: #1b382f;
+            --card-cream: #f8f5ee;
+            --card-parchment: #efe9dc;
+            --accent-gold: #d4a359;
+            --accent-gold-hover: #e2b46b;
+            --accent-berry: #8c2f39;
+            --text-dark: #1c2421;
+            --text-muted: #5a6661;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-forest);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(212, 163, 89, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(140, 47, 57, 0.14) 0%, transparent 50%);
+            color: var(--card-cream);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .font-serif-title {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        /* Subtle Ambient Snowfall */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: rgba(255, 255, 255, 0.35);
+            user-select: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0px) rotate(0deg);
+            }
+            100% {
+                transform: translateY(105vh) translateX(25px) rotate(360deg);
+            }
+        }
+
+        /* Advent Door Cards & Hover Animations */
+        .door-card {
+            perspective: 1000px;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, opacity 0.25s ease;
+        }
+
+        .door-card:not(.door-locked):hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .door-card:not(.door-locked):active {
+            transform: scale(0.98);
+        }
+
+        .door-closed {
+            background: linear-gradient(145deg, #1e3f35, #142b24);
+            border: 1.5px solid rgba(212, 163, 89, 0.45);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .door-closed:not(.door-locked):hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 12px 26px rgba(212, 163, 89, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .door-locked {
+            opacity: 0.68;
+            cursor: not-allowed;
+            background: linear-gradient(145deg, #173028, #0f201b);
+            border: 1.5px solid rgba(212, 163, 89, 0.2);
+        }
+
+        /* Dashed inner advent ornament border */
+        .door-inner-border {
+            border: 1px dashed rgba(212, 163, 89, 0.35);
+        }
+
+        .door-opened {
+            background: var(--card-cream);
+            color: var(--text-dark);
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+        }
+
+        /* Reveal animation for modals */
+        @keyframes popReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.88) translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-animate {
+            animation: popReveal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Custom Scrollbar for Textarea */
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #e5dec9;
+            border-radius: 8px;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background: #b5a88e;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="relative antialiased selection:bg-[#d4a359] selection:text-[#122620]">
+
+    <!-- Subtle Falling Snowflakes -->
+    <div id="snowContainer" class="snow-container" aria-hidden="true"></div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 py-8 sm:py-12">
+        
+        <!-- Header -->
+        <header class="text-center mb-8 sm:mb-10">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1b382f] border border-[#d4a359]/40 text-[#d4a359] text-xs sm:text-sm font-medium mb-3 shadow-sm">
+                <span>🎄</span>
+                <span>Discord Reading Challenge</span>
+                <span>📚</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-[#f8f5ee] mb-3">
+                🎄 Trial Your TBR – <span class="text-[#d4a359] italic font-normal">Christmas Edition</span>
+            </h1>
+            <p class="text-sm sm:text-base text-[#cbd5d0] max-w-2xl mx-auto leading-relaxed">
+                Read a chapter or 15–20 minutes a day until Christmas. <strong class="text-[#f8f5ee]">Keep, Snooze, or Unhaul!</strong>
+            </p>
+        </header>
+
+        <!-- =========================================================
+             VIEW 1: SETUP / INPUT SCREEN
+             ========================================================= -->
+        <main id="setupView" class="max-w-2xl mx-auto">
+            <div class="bg-[#f8f5ee] text-[#1c2421] rounded-2xl p-6 sm:p-8 shadow-2xl border-2 border-[#d4a359]/50">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-[#122620]">1. Enter Your TBR List</h2>
+                        <p class="text-xs sm:text-sm text-[#5a6661]">Paste up to 24 book titles (one book per line).</p>
+                    </div>
+                    <!-- Live Counter -->
+                    <div id="lineCounterBadge" class="inline-flex items-center self-start sm:self-auto px-3 py-1.5 rounded-xl bg-[#efe9dc] border border-[#d4a359]/60 text-sm font-semibold text-[#122620]">
+                        <span id="bookCountText">0 / 24 books entered</span>
+                    </div>
+                </div>
+
+                <!-- Book Titles Textarea -->
+                <div class="relative mb-4">
+                    <textarea 
+                        id="bookInput" 
+                        rows="10" 
+                        placeholder="Paste up to 24 books from your TBR here (one per line)...&#10;Example:&#10;The Night Circus&#10;Legends & Lattes&#10;Piranesi&#10;The Song of Achilles"
+                        class="w-full rounded-xl bg-white border-2 border-[#d8cfc0] focus:border-[#122620] focus:outline-none p-4 text-sm sm:text-base text-[#1c2421] placeholder-[#9aa39f] leading-relaxed transition-colors"
+                    ></textarea>
+                </div>
+
+                <!-- Overflow Warning (>24 lines) -->
+                <p id="overflowWarning" class="hidden text-xs text-[#8c2f39] font-medium mb-4 bg-[#8c2f39]/10 px-3 py-2 rounded-lg">
+                    ⚠️ You entered more than 24 lines. Only the first 24 books will be included in your calendar.
+                </p>
+
+                <!-- Optional Toggle: Strict December Date Lock -->
+                <div class="mb-5 p-3.5 rounded-xl bg-[#efe9dc]/80 border border-[#d8cfc0] flex items-center justify-between gap-4">
+                    <div>
+                        <label for="dateLockToggle" class="text-sm font-semibold text-[#122620] cursor-pointer block">
+                            🔒 Lock future doors until their December date
+                        </label>
+                        <p class="text-xs text-[#5a6661] mt-0.5">
+                            Keep OFF to open doors anytime or catch up freely; turn ON for strict Dec 1–24 pacing.
+                        </p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                        <input type="checkbox" id="dateLockToggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-[#cbbda6] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#122620]"></div>
+                    </label>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
+                    <button 
+                        type="button" 
+                        id="fillSampleBtn"
+                        class="px-4 py-3 rounded-xl bg-[#efe9dc] hover:bg-[#e4dccb] text-[#1c2421] font-medium text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                        <span>✨</span>
+                        <span>Fill with Sample Books</span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        id="startCalendarBtn"
+                        class="px-6 py-3.5 rounded-xl bg-[#122620] hover:bg-[#1b382f] text-[#f8f5ee] font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer border border-[#d4a359]/60"
+                    >
+                        <span>🎲</span>
+                        <span>Shuffle & Create My Advent Calendar</span>
+                    </button>
+                </div>
+
+                <p class="text-xs text-center text-[#5a6661] mt-4">
+                    🔒 Your list is randomly shuffled behind closed doors and saved locally in your browser.
+                </p>
+            </div>
+        </main>
+
+        <!-- =========================================================
+             VIEW 2: ADVENT CALENDAR GRID & DASHBOARD
+             ========================================================= -->
+        <section id="calendarView" class="hidden">
+            
+            <!-- Progress & Stats Bar -->
+            <div class="bg-[#1b382f]/90 backdrop-blur-sm border border-[#d4a359]/40 rounded-2xl p-4 sm:p-5 mb-6 shadow-xl">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    
+                    <!-- Counters -->
+                    <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                        <div class="px-3.5 py-2 rounded-xl bg-[#122620] border border-[#d4a359]/30 text-sm font-semibold">
+                            🚪 Opened: <span id="statOpened" class="text-[#d4a359]">0 / 24</span>
+                        </div>
+                        <div class="px-3 py-2 rounded-xl bg-[#122620]/70 text-xs sm:text-sm font-medium text-emerald-300 border border-emerald-500/20">
+                            🎁 Keep: <span id="statKeep" class="font-bold">0</span>
+                        </div>
+                        <div class="px-3 py-2 rounded-xl bg-[#122620]/70 text-xs sm:text-sm font-medium text-sky-300 border border-sky-500/20">
+                            ❄️ Snooze: <span id="statSnooze" class="font-bold">0</span>
+                        </div>
+                        <div class="px-3 py-2 rounded-xl bg-[#122620]/70 text-xs sm:text-sm font-medium text-rose-300 border border-rose-500/20">
+                            🕯️ Unhaul: <span id="statUnhaul" class="font-bold">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Controls: Door Order, Date Lock Toggle, Discord Summary Export -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button 
+                            type="button" 
+                            id="toggleDateLockActiveBtn"
+                            class="px-3 py-2 rounded-xl bg-[#122620] hover:bg-[#23473c] text-[#f8f5ee] text-xs font-medium border border-[#d4a359]/30 transition-colors cursor-pointer"
+                            title="Toggle strict December date locking"
+                        >
+                            🔓 Date Lock: OFF
+                        </button>
+
+                        <button 
+                            type="button" 
+                            id="toggleOrderBtn"
+                            class="px-3 py-2 rounded-xl bg-[#122620] hover:bg-[#23473c] text-[#f8f5ee] text-xs font-medium border border-[#d4a359]/30 transition-colors cursor-pointer"
+                            title="Switch door layout order"
+                        >
+                            🔢 Order: 1–24
+                        </button>
+
+                        <button 
+                            type="button" 
+                            id="copySummaryBtn"
+                            class="px-3.5 py-2 rounded-xl bg-[#d4a359] hover:bg-[#e2b46b] text-[#122620] text-xs sm:text-sm font-semibold transition-colors flex items-center gap-1.5 shadow cursor-pointer"
+                        >
+                            <span>📋</span>
+                            <span>Copy Full Progress for Discord</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doors Grid -->
+            <div id="doorsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 sm:gap-4 mb-8">
+                <!-- Doors rendered dynamically via JavaScript -->
+            </div>
+
+            <!-- Footer with Reset / Edit Book List Option -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#d4a359]/20 text-xs text-[#9cb0a8]">
+                <p>💡 Tip: Click any opened door again to update your verdict (Keep/Snooze/Unhaul), add notes, or copy its Discord snippet.</p>
+                <button 
+                    type="button" 
+                    id="openResetModalBtn"
+                    class="px-3.5 py-2 rounded-xl bg-[#8c2f39]/25 hover:bg-[#8c2f39]/45 text-rose-200 border border-rose-400/30 transition-colors cursor-pointer whitespace-nowrap"
+                >
+                    🔄 Reset / Edit Book List
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- =========================================================
+         MODAL 1: DOOR REVEAL, VERDICT & NOTES
+         ========================================================= -->
+    <div id="doorModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+        <div class="modal-animate relative w-full max-w-md bg-[#f8f5ee] text-[#1c2421] rounded-2xl p-6 sm:p-7 shadow-2xl border-2 border-[#d4a359]">
+            
+            <!-- Close Button -->
+            <button 
+                type="button" 
+                id="closeDoorModalBtn"
+                aria-label="Close"
+                class="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#efe9dc] hover:bg-[#e2d9c5] flex items-center justify-center text-[#1c2421] font-bold transition-colors cursor-pointer"
+            >
+                ✕
+            </button>
+
+            <!-- Door Badge & Book Title -->
+            <div class="text-center mb-4">
+                <span id="modalDoorBadge" class="inline-block px-3.5 py-1 rounded-full bg-[#122620] text-[#d4a359] text-xs font-bold tracking-wider uppercase mb-2.5">
+                    Door #1
+                </span>
+                <p class="text-xs text-[#5a6661] uppercase tracking-wide mb-1">Behind Door #<span id="modalDoorNumText">1</span> is...</p>
+                <h3 id="modalBookTitle" class="text-2xl sm:text-3xl font-bold text-[#122620] leading-snug px-2 break-words">
+                    Book Title
+                </h3>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-[#d8cfc0] my-4"></div>
+
+            <!-- Verdict Buttons -->
+            <div class="mb-4">
+                <p class="text-xs sm:text-sm font-semibold text-center text-[#1c2421] mb-2.5">
+                    What's your verdict after your trial read?
+                </p>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <button 
+                        type="button" 
+                        data-status="keep"
+                        class="status-choice-btn flex flex-col items-center justify-center p-3 rounded-xl border-2 border-[#d8cfc0] bg-white hover:border-emerald-600 transition-all cursor-pointer"
+                    >
+                        <span class="text-2xl mb-1">🎁</span>
+                        <span class="text-xs font-bold text-[#122620]">Keep</span>
+                        <span class="text-[10px] text-[#5a6661] text-center leading-tight mt-0.5">Stays on TBR</span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        data-status="snooze"
+                        class="status-choice-btn flex flex-col items-center justify-center p-3 rounded-xl border-2 border-[#d8cfc0] bg-white hover:border-sky-600 transition-all cursor-pointer"
+                    >
+                        <span class="text-2xl mb-1">❄️</span>
+                        <span class="text-xs font-bold text-[#122620]">Snooze</span>
+                        <span class="text-[10px] text-[#5a6661] text-center leading-tight mt-0.5">Back on shelf</span>
+                    </button>
+
+                    <button 
+                        type="button" 
+                        data-status="unhaul"
+                        class="status-choice-btn flex flex-col items-center justify-center p-3 rounded-xl border-2 border-[#d8cfc0] bg-white hover:border-rose-600 transition-all cursor-pointer"
+                    >
+                        <span class="text-2xl mb-1">🕯️</span>
+                        <span class="text-xs font-bold text-[#122620]">Unhaul</span>
+                        <span class="text-[10px] text-[#5a6661] text-center leading-tight mt-0.5">DNF / Rehome</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Short Notes Field -->
+            <div class="mb-5">
+                <label for="doorNotesInput" class="block text-xs font-semibold text-[#122620] mb-1.5">
+                    First impression / notes <span class="font-normal text-[#5a6661]">(optional)</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="doorNotesInput" 
+                    maxlength="180"
+                    placeholder="First impression / notes..."
+                    class="w-full rounded-xl bg-white border border-[#d8cfc0] focus:border-[#122620] focus:outline-none px-3.5 py-2.5 text-sm text-[#1c2421] placeholder-[#9aa39f] transition-colors"
+                />
+            </div>
+
+            <!-- Discord Single Door Copy Button -->
+            <div class="flex flex-col gap-2">
+                <button 
+                    type="button" 
+                    id="copyDoorDiscordBtn"
+                    class="w-full py-3 px-4 rounded-xl bg-[#122620] hover:bg-[#1b382f] text-[#f8f5ee] font-semibold text-sm flex items-center justify-center gap-2 transition-colors shadow cursor-pointer"
+                >
+                    <span>💬</span>
+                    <span>Copy Single Door for Discord</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         MODAL 2: CONFIRMATION FOR RESET / EDIT LIST
+         ========================================================= -->
+    <div id="resetModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+        <div class="modal-animate w-full max-w-sm bg-[#f8f5ee] text-[#1c2421] rounded-2xl p-6 shadow-2xl border-2 border-[#8c2f39]">
+            <h3 class="text-xl font-bold text-[#122620] mb-2">Reset & edit your book list?</h3>
+            <p class="text-sm text-[#5a6661] mb-5 leading-relaxed">
+                This will clear your currently opened doors, verdicts, and notes so you can edit your list and reshuffle. Your book titles will stay in the input box.
+            </p>
+            <div class="flex items-center justify-end gap-2.5">
+                <button 
+                    type="button" 
+                    id="cancelResetBtn"
+                    class="px-4 py-2.5 rounded-xl bg-[#efe9dc] hover:bg-[#e2d9c5] text-[#1c2421] text-sm font-medium cursor-pointer"
+                >
+                    Cancel
+                </button>
+                <button 
+                    type="button" 
+                    id="confirmResetBtn"
+                    class="px-4 py-2.5 rounded-xl bg-[#8c2f39] hover:bg-[#73242c] text-white text-sm font-semibold cursor-pointer"
+                >
+                    Yes, Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         TOAST NOTIFICATION
+         ========================================================= -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 translate-y-3">
+        <div id="toastMessage" class="px-5 py-3 rounded-xl bg-[#122620] text-[#f8f5ee] border border-[#d4a359] shadow-2xl text-sm font-medium flex items-center gap-2">
+            <span>✅</span>
+            <span>Copied to clipboard!</span>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         JAVASCRIPT LOGIC
+         ========================================================= -->
+    <script>
+        (function () {
+            'use strict';
+
+            // LocalStorage Key (English version namespace)
+            const STORAGE_KEY = 'tbr_advent_calendar_en_v1';
+
+            // 24 Popular Sample Books for instant testing
+            const SAMPLE_BOOKS = [
+                "The Night Circus",
+                "Legends & Lattes",
+                "Piranesi",
+                "The Song of Achilles",
+                "Circe",
+                "Babel",
+                "The Invisible Life of Addie LaRue",
+                "Six of Crows",
+                "Project Hail Mary",
+                "The House in the Cerulean Sea",
+                "A Court of Thorns and Roses",
+                "The Midnight Library",
+                "The Name of the Wind",
+                "Klara and the Sun",
+                "The Secret History",
+                "Fourth Wing",
+                "The Shadow of the Wind",
+                "Gideon the Ninth",
+                "The Book Thief",
+                "Once Upon a Broken Heart",
+                "Pride and Prejudice",
+                "Mexican Gothic",
+                "The Priory of the Orange Tree",
+                "Tress of the Emerald Sea"
+            ];
+
+            // Verdict Metadata for UI Badges and Discord Snippets
+            const STATUS_META = {
+                keep: {
+                    emoji: '🎁',
+                    label: 'Keep',
+                    badgeClass: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+                    activeBtnClass: 'border-emerald-600 bg-emerald-50 ring-2 ring-emerald-500/30'
+                },
+                snooze: {
+                    emoji: '❄️',
+                    label: 'Snooze',
+                    badgeClass: 'bg-sky-100 text-sky-900 border-sky-300',
+                    activeBtnClass: 'border-sky-600 bg-sky-50 ring-2 ring-sky-500/30'
+                },
+                unhaul: {
+                    emoji: '🕯️',
+                    label: 'Unhaul',
+                    badgeClass: 'bg-rose-100 text-rose-900 border-rose-300',
+                    activeBtnClass: 'border-rose-600 bg-rose-50 ring-2 ring-rose-500/30'
+                }
+            };
+
+            // Application State
+            let state = {
+                started: false,
+                rawInput: '',
+                lockFutureDates: false,
+                // Array of door objects: { day: 1..N, title: string, opened: boolean, status: null|'keep'|'snooze'|'unhaul', notes: string, gridOrder: number }
+                doors: [],
+                shuffledGrid: false
+            };
+
+            let activeDoorDay = null;
+            let toastTimeout = null;
+
+            // DOM Elements
+            const setupView = document.getElementById('setupView');
+            const calendarView = document.getElementById('calendarView');
+            const bookInput = document.getElementById('bookInput');
+            const bookCountText = document.getElementById('bookCountText');
+            const overflowWarning = document.getElementById('overflowWarning');
+            const dateLockToggle = document.getElementById('dateLockToggle');
+            const fillSampleBtn = document.getElementById('fillSampleBtn');
+            const startCalendarBtn = document.getElementById('startCalendarBtn');
+
+            const doorsGrid = document.getElementById('doorsGrid');
+            const statOpened = document.getElementById('statOpened');
+            const statKeep = document.getElementById('statKeep');
+            const statSnooze = document.getElementById('statSnooze');
+            const statUnhaul = document.getElementById('statUnhaul');
+            const toggleDateLockActiveBtn = document.getElementById('toggleDateLockActiveBtn');
+            const toggleOrderBtn = document.getElementById('toggleOrderBtn');
+            const copySummaryBtn = document.getElementById('copySummaryBtn');
+
+            const doorModal = document.getElementById('doorModal');
+            const closeDoorModalBtn = document.getElementById('closeDoorModalBtn');
+            const modalDoorBadge = document.getElementById('modalDoorBadge');
+            const modalDoorNumText = document.getElementById('modalDoorNumText');
+            const modalBookTitle = document.getElementById('modalBookTitle');
+            const statusChoiceBtns = document.querySelectorAll('.status-choice-btn');
+            const doorNotesInput = document.getElementById('doorNotesInput');
+            const copyDoorDiscordBtn = document.getElementById('copyDoorDiscordBtn');
+
+            const resetModal = document.getElementById('resetModal');
+            const openResetModalBtn = document.getElementById('openResetModalBtn');
+            const cancelResetBtn = document.getElementById('cancelResetBtn');
+            const confirmResetBtn = document.getElementById('confirmResetBtn');
+
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            // ---------------------------------------------------------
+            // Helper Functions: Fisher-Yates Shuffle, Date Lock & Storage
+            // ---------------------------------------------------------
+            function fisherYatesShuffle(array) {
+                const arr = [...array];
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            // Determines if a door is locked based on the user's current calendar date
+            function isDoorDateLocked(day) {
+                if (!state.lockFutureDates) return false;
+                const now = new Date();
+                const month = now.getMonth(); // 0 = Jan, 10 = Nov, 11 = Dec
+                const dateOfMonth = now.getDate();
+
+                // Before December (Jan–Nov): all doors locked if strict mode is active
+                if (month < 11) {
+                    return true;
+                }
+                // In December (month === 11): unlock doors up to today's date
+                return day > dateOfMonth;
+            }
+
+            function saveState() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                } catch (err) {
+                    console.warn('Could not save state to localStorage:', err);
+                }
+            }
+
+            function loadState() {
+                try {
+                    const saved = localStorage.getItem(STORAGE_KEY);
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        if (parsed && typeof parsed === 'object') {
+                            state = { ...state, ...parsed };
+                        }
+                    }
+                } catch (err) {
+                    console.warn('Error loading saved state:', err);
+                }
+            }
+
+            function showToast(text, icon = '✅') {
+                toastMessage.innerHTML = `<span>${icon}</span><span>${text}</span>`;
+                toast.classList.remove('opacity-0', 'translate-y-3');
+                toast.classList.add('opacity-100', 'translate-y-0');
+
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'translate-y-3');
+                }, 2800);
+            }
+
+            // Safe Clipboard Copy (works inside iFrames and standard browsers)
+            function copyTextToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('Copied for Discord! Ready to paste.', '📋');
+                } catch (err) {
+                    showToast('Copy failed — please select and copy manually.', '⚠️');
+                }
+                document.body.removeChild(textarea);
+            }
+
+            // ---------------------------------------------------------
+            // Setup Screen Logic
+            // ---------------------------------------------------------
+            function parseBooks(rawText) {
+                return rawText
+                    .split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0);
+            }
+
+            function updateLineCounter() {
+                const lines = parseBooks(bookInput.value);
+                const count = Math.min(lines.length, 24);
+                bookCountText.textContent = `${count} / 24 books entered`;
+
+                if (lines.length > 24) {
+                    overflowWarning.classList.remove('hidden');
+                } else {
+                    overflowWarning.classList.add('hidden');
+                }
+            }
+
+            function startCalendar() {
+                const lines = parseBooks(bookInput.value);
+                if (lines.length === 0) {
+                    showToast('Please enter at least one book title!', '📚');
+                    bookInput.focus();
+                    return;
+                }
+
+                // Take up to 24 books and shuffle blindly
+                const selectedBooks = lines.slice(0, 24);
+                const shuffledTitles = fisherYatesShuffle(selectedBooks);
+
+                // Generate random grid positions for the classic scattered advent door layout
+                const randomPositions = fisherYatesShuffle(
+                    Array.from({ length: shuffledTitles.length }, (_, idx) => idx)
+                );
+
+                state.rawInput = bookInput.value;
+                state.lockFutureDates = dateLockToggle.checked;
+                state.started = true;
+                state.doors = shuffledTitles.map((title, index) => ({
+                    day: index + 1,
+                    title: title,
+                    opened: false,
+                    status: null,
+                    notes: '',
+                    gridOrder: randomPositions[index]
+                }));
+
+                saveState();
+                renderApp();
+                showToast('Your TBR Advent Calendar has been shuffled!', '🎄');
+            }
+
+            // ---------------------------------------------------------
+            // Render Calendar Dashboard & Grid
+            // ---------------------------------------------------------
+            function renderStats() {
+                const total = state.doors.length;
+                const openedCount = state.doors.filter(d => d.opened).length;
+                const keepCount = state.doors.filter(d => d.status === 'keep').length;
+                const snoozeCount = state.doors.filter(d => d.status === 'snooze').length;
+                const unhaulCount = state.doors.filter(d => d.status === 'unhaul').length;
+
+                statOpened.textContent = `${openedCount} / ${total}`;
+                statKeep.textContent = keepCount;
+                statSnooze.textContent = snoozeCount;
+                statUnhaul.textContent = unhaulCount;
+
+                toggleDateLockActiveBtn.textContent = state.lockFutureDates
+                    ? '🔒 Date Lock: ON'
+                    : '🔓 Date Lock: OFF';
+
+                toggleOrderBtn.textContent = state.shuffledGrid 
+                    ? '🔀 Order: Scattered' 
+                    : `🔢 Order: 1–${total}`;
+            }
+
+            function renderGrid() {
+                doorsGrid.innerHTML = '';
+
+                const displayDoors = [...state.doors].sort((a, b) => {
+                    return state.shuffledGrid ? a.gridOrder - b.gridOrder : a.day - b.day;
+                });
+
+                displayDoors.forEach(door => {
+                    const card = document.createElement('button');
+                    card.type = 'button';
+                    const locked = !door.opened && isDoorDateLocked(door.day);
+
+                    card.setAttribute('aria-label', door.opened 
+                        ? `Door ${door.day} opened: ${door.title}` 
+                        : (locked ? `Door ${door.day} locked until December ${door.day}` : `Open Door ${door.day}`));
+
+                    if (!door.opened) {
+                        // Unopened Door (either available or date-locked)
+                        card.className = `door-card door-closed ${locked ? 'door-locked' : ''} rounded-2xl p-2.5 aspect-square flex flex-col justify-between text-left relative overflow-hidden group ${locked ? '' : 'cursor-pointer'}`;
+                        card.innerHTML = `
+                            <div class="door-inner-border w-full h-full rounded-xl p-3 flex flex-col items-center justify-center relative">
+                                <span class="text-xs text-[#d4a359]/70 uppercase tracking-widest mb-1">Door</span>
+                                <span class="font-serif-title text-3xl sm:text-4xl font-bold text-[#f8f5ee] ${locked ? '' : 'group-hover:text-[#d4a359]'} transition-colors">
+                                    ${door.day}
+                                </span>
+                                <span class="mt-2 text-base ${locked ? 'opacity-70' : 'opacity-60 group-hover:opacity-100'} transition-opacity">
+                                    ${locked ? '🔒' : '✨'}
+                                </span>
+                            </div>
+                        `;
+                    } else {
+                        // Opened Door
+                        const statusInfo = door.status ? STATUS_META[door.status] : null;
+                        card.className = 'door-card door-opened rounded-2xl p-3.5 aspect-square flex flex-col justify-between cursor-pointer text-left relative';
+                        
+                        const badgeHtml = statusInfo
+                            ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold border ${statusInfo.badgeClass}">
+                                   ${statusInfo.emoji} ${statusInfo.label}
+                               </span>`
+                            : `<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-[#efe9dc] text-[#5a6661]">
+                                   📖 Reading
+                               </span>`;
+
+                        const noteIndicator = door.notes && door.notes.trim().length > 0
+                            ? `<span class="text-xs" title="Has notes">📝</span>`
+                            : `<span class="text-xs text-[#5a6661]">📖</span>`;
+
+                        card.innerHTML = `
+                            <div class="flex items-center justify-between w-full">
+                                <span class="w-6 h-6 rounded-full bg-[#122620] text-[#d4a359] text-xs font-bold flex items-center justify-center">
+                                    ${door.day}
+                                </span>
+                                ${noteIndicator}
+                            </div>
+                            <p class="font-serif-title font-bold text-xs sm:text-sm text-[#122620] line-clamp-3 leading-snug my-1" title="${escapeHtml(door.title)}">
+                                ${escapeHtml(door.title)}
+                            </p>
+                            <div class="pt-1">
+                                ${badgeHtml}
+                            </div>
+                        `;
+                    }
+
+                    card.addEventListener('click', () => handleDoorClick(door.day));
+                    doorsGrid.appendChild(card);
+                });
+            }
+
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            // ---------------------------------------------------------
+            // Door Opening & Modal Interaction
+            // ---------------------------------------------------------
+            function handleDoorClick(day) {
+                const door = state.doors.find(d => d.day === day);
+                if (!door) return;
+
+                if (!door.opened && isDoorDateLocked(door.day)) {
+                    showToast(`Door #${door.day} unlocks on December ${door.day}! (Turn off Date Lock to open early)`, '🔒');
+                    return;
+                }
+
+                if (!door.opened) {
+                    door.opened = true;
+                    saveState();
+                    renderStats();
+                    renderGrid();
+                }
+
+                openDoorModal(door);
+            }
+
+            function openDoorModal(door) {
+                activeDoorDay = door.day;
+                modalDoorBadge.textContent = `Door #${door.day}`;
+                modalDoorNumText.textContent = door.day;
+                modalBookTitle.textContent = door.title;
+                doorNotesInput.value = door.notes || '';
+
+                // Highlight active verdict button
+                statusChoiceBtns.forEach(btn => {
+                    const btnStatus = btn.getAttribute('data-status');
+                    btn.className = 'status-choice-btn flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all cursor-pointer ';
+                    if (door.status === btnStatus) {
+                        btn.className += STATUS_META[btnStatus].activeBtnClass;
+                    } else {
+                        btn.className += 'border-[#d8cfc0] bg-white hover:border-[#122620]/50';
+                    }
+                });
+
+                doorModal.classList.remove('hidden');
+                doorModal.classList.add('flex');
+            }
+
+            function closeDoorModal() {
+                doorModal.classList.add('hidden');
+                doorModal.classList.remove('flex');
+                activeDoorDay = null;
+            }
+
+            function setDoorStatus(status) {
+                if (activeDoorDay === null) return;
+                const door = state.doors.find(d => d.day === activeDoorDay);
+                if (!door) return;
+
+                // Clicking active verdict toggles it off; otherwise sets it
+                door.status = (door.status === status) ? null : status;
+                saveState();
+                renderStats();
+                renderGrid();
+                openDoorModal(door);
+            }
+
+            function updateDoorNotes() {
+                if (activeDoorDay === null) return;
+                const door = state.doors.find(d => d.day === activeDoorDay);
+                if (!door) return;
+
+                door.notes = doorNotesInput.value;
+                saveState();
+                renderGrid();
+            }
+
+            // ---------------------------------------------------------
+            // Discord Export Snippets
+            // ---------------------------------------------------------
+            function copySingleDoorForDiscord() {
+                if (activeDoorDay === null) return;
+                const door = state.doors.find(d => d.day === activeDoorDay);
+                if (!door) return;
+
+                const verdictText = door.status 
+                    ? `${STATUS_META[door.status].emoji} ${STATUS_META[door.status].label}`
+                    : `📖 Reading`;
+
+                let snippet = `🎄 **Door #${door.day}:** ||${door.title}|| — Verdict: ${verdictText}`;
+                if (door.notes && door.notes.trim().length > 0) {
+                    snippet += `\n> *Notes:* ${door.notes.trim()}`;
+                }
+
+                copyTextToClipboard(snippet);
+            }
+
+            function copySummaryForDiscord() {
+                const total = state.doors.length;
+                const opened = state.doors.filter(d => d.opened);
+                const keepCount = state.doors.filter(d => d.status === 'keep').length;
+                const snoozeCount = state.doors.filter(d => d.status === 'snooze').length;
+                const unhaulCount = state.doors.filter(d => d.status === 'unhaul').length;
+
+                const lines = [
+                    `🎄 **Trial Your TBR – Progress Update (${opened.length}/${total} Doors)**`,
+                    `🎁 Keep: **${keepCount}** | ❄️ Snooze: **${snoozeCount}** | 🕯️ Unhaul: **${unhaulCount}**`
+                ];
+
+                if (opened.length > 0) {
+                    lines.push('');
+                    opened
+                        .sort((a, b) => a.day - b.day)
+                        .forEach(d => {
+                            const verdict = d.status 
+                                ? `${STATUS_META[d.status].emoji} ${STATUS_META[d.status].label}` 
+                                : '📖 Reading';
+                            const noteSuffix = (d.notes && d.notes.trim().length > 0) 
+                                ? ` — *${d.notes.trim()}*` 
+                                : '';
+                            lines.push(`• **Door #${d.day}:** ||${d.title}|| (${verdict})${noteSuffix}`);
+                        });
+                }
+
+                copyTextToClipboard(lines.join('\n'));
+            }
+
+            // ---------------------------------------------------------
+            // View Switching & Snowfall Initialization
+            // ---------------------------------------------------------
+            function renderApp() {
+                if (state.started && state.doors.length > 0) {
+                    setupView.classList.add('hidden');
+                    calendarView.classList.remove('hidden');
+                    renderStats();
+                    renderGrid();
+                } else {
+                    calendarView.classList.add('hidden');
+                    setupView.classList.remove('hidden');
+                    bookInput.value = state.rawInput || '';
+                    dateLockToggle.checked = !!state.lockFutureDates;
+                    updateLineCounter();
+                }
+            }
+
+            function createSnowflakes() {
+                const container = document.getElementById('snowContainer');
+                const flakeCount = 22;
+                for (let i = 0; i < flakeCount; i++) {
+                    const flake = document.createElement('div');
+                    flake.className = 'snowflake';
+                    flake.textContent = i % 3 === 0 ? '❄' : '•';
+                    flake.style.left = `${Math.random() * 100}%`;
+                    flake.style.fontSize = `${Math.random() * 10 + 8}px`;
+                    flake.style.animationDuration = `${Math.random() * 10 + 12}s`;
+                    flake.style.animationDelay = `${Math.random() * 10}s`;
+                    container.appendChild(flake);
+                }
+            }
+
+            // ---------------------------------------------------------
+            // Event Listeners
+            // ---------------------------------------------------------
+            bookInput.addEventListener('input', updateLineCounter);
+
+            fillSampleBtn.addEventListener('click', () => {
+                bookInput.value = SAMPLE_BOOKS.join('\n');
+                updateLineCounter();
+                showToast('24 sample books added!', '✨');
+            });
+
+            startCalendarBtn.addEventListener('click', startCalendar);
+
+            toggleDateLockActiveBtn.addEventListener('click', () => {
+                state.lockFutureDates = !state.lockFutureDates;
+                saveState();
+                renderStats();
+                renderGrid();
+                showToast(
+                    state.lockFutureDates 
+                        ? 'Strict December date lock enabled' 
+                        : 'Date lock disabled — open any door freely!',
+                    state.lockFutureDates ? '🔒' : '🔓'
+                );
+            });
+
+            toggleOrderBtn.addEventListener('click', () => {
+                state.shuffledGrid = !state.shuffledGrid;
+                saveState();
+                renderStats();
+                renderGrid();
+            });
+
+            copySummaryBtn.addEventListener('click', copySummaryForDiscord);
+
+            closeDoorModalBtn.addEventListener('click', closeDoorModal);
+            doorModal.addEventListener('click', (e) => {
+                if (e.target === doorModal) closeDoorModal();
+            });
+
+            statusChoiceBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const status = btn.getAttribute('data-status');
+                    setDoorStatus(status);
+                });
+            });
+
+            doorNotesInput.addEventListener('input', updateDoorNotes);
+
+            copyDoorDiscordBtn.addEventListener('click', copySingleDoorForDiscord);
+
+            // Reset / Edit Modal Controls
+            openResetModalBtn.addEventListener('click', () => {
+                resetModal.classList.remove('hidden');
+                resetModal.classList.add('flex');
+            });
+
+            cancelResetBtn.addEventListener('click', () => {
+                resetModal.classList.add('hidden');
+                resetModal.classList.remove('flex');
+            });
+
+            resetModal.addEventListener('click', (e) => {
+                if (e.target === resetModal) {
+                    resetModal.classList.add('hidden');
+                    resetModal.classList.remove('flex');
+                }
+            });
+
+            confirmResetBtn.addEventListener('click', () => {
+                state.started = false;
+                state.doors = [];
+                saveState();
+                resetModal.classList.add('hidden');
+                resetModal.classList.remove('flex');
+                renderApp();
+                showToast('Calendar reset — edit your list and shuffle again!', '🔄');
+            });
+
+            // Close open modals on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeDoorModal();
+                    resetModal.classList.add('hidden');
+                    resetModal.classList.remove('flex');
+                }
+            });
+
+            // Initialize App
+            createSnowflakes();
+            loadState();
+            renderApp();
+        })();
+    </script>
+</body>
+</html>
